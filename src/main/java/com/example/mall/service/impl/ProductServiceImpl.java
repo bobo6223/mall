@@ -6,6 +6,8 @@ import com.example.mall.model.Product;
 import com.example.mall.service.ProductService;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ProductServiceImpl implements ProductService {
 
@@ -13,6 +15,11 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductServiceImpl(ProductDao productDao) {
         this.productDao = productDao;
+    }
+
+    @Override
+    public List<Product> getProducts() {
+        return productDao.getProducts();
     }
 
     @Override
