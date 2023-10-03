@@ -1,5 +1,6 @@
 package com.example.mall.controller;
 
+import com.example.mall.constant.ProductCategory;
 import com.example.mall.dto.ProductRequest;
 import com.example.mall.model.Product;
 import com.example.mall.service.ProductService;
@@ -19,9 +20,14 @@ public class ProductController {
         this.productService = productService;
     }
 
+
+    // @RequestParam(required = false) 可不帶此參數也可查詢
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search
+            ) {
+        List<Product> productList = productService.getProducts(category,search);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }

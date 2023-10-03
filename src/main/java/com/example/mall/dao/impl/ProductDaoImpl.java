@@ -1,5 +1,6 @@
 package com.example.mall.dao.impl;
 
+import com.example.mall.constant.ProductCategory;
 import com.example.mall.dao.ProductDao;
 import com.example.mall.dto.ProductRequest;
 import com.example.mall.model.Product;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.awt.image.PackedColorModel;
 import java.util.*;
 
 @Component
@@ -22,11 +24,23 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getProducts() {
+    public List<Product> getProducts(ProductCategory category, String search) {
         String sql = "SELECT product_id,product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
-                "FROM product";
+                "FROM product WHERE 1=1";
 
         Map<String, Object> map = new HashMap<>();
+
+        if (category != null) {
+            sql = sql + " AND category = :category";
+            // AND前方要預留空白以拼接
+            map.put("category", category.name());
+        }
+
+        if (search != null) {
+            sql = sql + " AND product_name LIKE :search";
+            map.put("search", "%" + search + "%");
+            // %一定要寫在map裡，勿寫在sql裡
+        }
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
         return productList;
@@ -66,7 +80,6 @@ public class ProductDaoImpl implements ProductDao {
         map.put("lastModifiedDate", now);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
 
 
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource(map), keyHolder);
