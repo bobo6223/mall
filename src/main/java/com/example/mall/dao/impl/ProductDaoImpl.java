@@ -1,6 +1,5 @@
 package com.example.mall.dao.impl;
 
-import com.example.mall.constant.ProductCategory;
 import com.example.mall.dao.ProductDao;
 import com.example.mall.dto.ProductQueryParams;
 import com.example.mall.dto.ProductRequest;
@@ -12,7 +11,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import java.awt.image.PackedColorModel;
 import java.util.*;
 
 @Component
@@ -22,6 +20,28 @@ public class ProductDaoImpl implements ProductDao {
 
     public ProductDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
+    @Override
+    public Integer countProduct(ProductQueryParams productQueryParams) {
+        String sql = "SELECT count(*) FROM product WHERE 1=1";
+
+        Map<String, Object> map = new HashMap<>();
+
+        // 查詢條件
+        if (productQueryParams.getCategory() != null) {
+            sql = sql + " AND category = :category";
+            // AND前方要預留空白以拼接
+            map.put("category", productQueryParams.getCategory().name());
+        }
+
+        if (productQueryParams.getSearch() != null) {
+            sql = sql + " AND product_name LIKE :search";
+            map.put("search", "%" + productQueryParams.getSearch() + "%");
+            // %一定要寫在map裡，勿寫在sql裡
+        }
+
+        return namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
     }
 
     @Override
