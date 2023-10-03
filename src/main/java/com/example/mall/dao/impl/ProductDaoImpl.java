@@ -123,6 +123,10 @@ public class ProductDaoImpl implements ProductDao {
         map.put("productId", productId);
 
         namedParameterJdbcTemplate.update(sql, map);
+
+        if (productId == null || productId <= 0) {
+            throw new IllegalArgumentException("Invalid productId");
+        }
     }
 
     private String addFilteringSql(String sql, Map<String, Object> map, ProductQueryParams productQueryParams) {
