@@ -3,7 +3,6 @@ package com.example.mall.controller;
 import com.example.mall.dto.UserRegisterRequest;
 import com.example.mall.model.User;
 import com.example.mall.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

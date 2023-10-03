@@ -1,11 +1,16 @@
 package com.example.mall.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class User {
 
     private Integer userId;
+    @JsonProperty("e-mail") // 更改JSON名稱
     private String email;
+    @JsonIgnore // 將變數隱藏
     private String password;
     private Date createdDate;
     private Date lastModifiedDate;
