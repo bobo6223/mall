@@ -3,7 +3,9 @@ package com.example.mall.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.beans.Transient;
 import java.util.Date;
+
 
 public class User {
 
@@ -54,4 +56,6 @@ public class User {
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
+
 }

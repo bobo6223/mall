@@ -9,7 +9,7 @@ public class UserLoginRequest {
     @Email
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "密碼不得為空白或null")
     private String password;
 
     public String getEmail() {
