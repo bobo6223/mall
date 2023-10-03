@@ -43,6 +43,8 @@ public class ProductDaoImpl implements ProductDao {
             // %一定要寫在map裡，勿寫在sql裡
         }
 
+        sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
+
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
         return productList;
     }
